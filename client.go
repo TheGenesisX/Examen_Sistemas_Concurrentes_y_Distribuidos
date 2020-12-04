@@ -53,6 +53,8 @@ func main() {
 
 	go cliente(login, messageChan)
 
+	fmt.Println("Testing branch change.")
+
 	fmt.Print("Username: ")
 	scanner.Scan()
 	nombre := scanner.Text()
