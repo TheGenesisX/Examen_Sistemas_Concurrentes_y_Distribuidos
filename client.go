@@ -19,6 +19,8 @@ type User struct {
 var messageChan chan User = make(chan User)
 
 func cliente(login chan string, messageChan chan User) {
+	var receivedMessage string
+
 	cli, err := net.Dial("tcp", ":9999")
 	if err != nil {
 		fmt.Sprintln(err)
@@ -42,7 +44,15 @@ func cliente(login chan string, messageChan chan User) {
 				fmt.Sprintln(err)
 				return
 			}
+
+			// default:
 		}
+		err := gob.NewDecoder(cli).Decode(&receivedMessage)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println(receivedMessage)
 	}
 }
 
@@ -52,8 +62,6 @@ func main() {
 	var newUser User
 
 	go cliente(login, messageChan)
-
-	fmt.Println("Testing branch change.")
 
 	fmt.Print("Username: ")
 	scanner.Scan()
@@ -67,7 +75,7 @@ func main() {
 		fmt.Println("2) Enviar documento")
 		fmt.Println("3) Mostrar chat")
 		fmt.Println("0) Salir")
-		fmt.Print("Opcion: ")
+		// fmt.Print("Opcion: ")
 		fmt.Scanln(&opc)
 
 		switch opc {

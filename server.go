@@ -6,6 +6,8 @@ import (
 	"net"
 )
 
+var clientList = []net.Conn{}
+
 func servidor() {
 	serv, err := net.Listen("tcp", ":9999")
 	if err != nil {
@@ -19,6 +21,7 @@ func servidor() {
 			fmt.Println(err)
 			continue
 		}
+		clientList = append(clientList, cli)
 		go clientHandler(cli)
 	}
 }
@@ -33,6 +36,15 @@ func clientHandler(cli net.Conn) {
 			return
 		}
 		fmt.Println(mensaje)
+
+		for i := 0; i < len(clientList); i++ {
+			if cli != clientList[i]{
+				err := gob.NewEncoder(clientList[i]).Encode(mensaje)
+				if err != nil {
+					fmt.Println(err)
+				}
+			}
+		}
 	}
 }
 
