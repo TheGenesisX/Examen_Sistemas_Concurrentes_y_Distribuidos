@@ -44,8 +44,6 @@ func cliente(login chan string, messageChan chan User) {
 				fmt.Sprintln(err)
 				return
 			}
-
-			// default:
 		}
 		err := gob.NewDecoder(cli).Decode(&receivedMessage)
 		if err != nil {
@@ -75,7 +73,6 @@ func main() {
 		fmt.Println("2) Enviar documento")
 		fmt.Println("3) Mostrar chat")
 		fmt.Println("0) Salir")
-		// fmt.Print("Opcion: ")
 		fmt.Scanln(&opc)
 
 		switch opc {
