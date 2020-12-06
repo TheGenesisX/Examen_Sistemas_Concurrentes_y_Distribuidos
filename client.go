@@ -68,22 +68,28 @@ func main() {
 
 	login <- "Se ha conectado: " + nombre
 
+	fmt.Println("----------MENU----------")
+	fmt.Println("1) Enviar mensaje")
+	fmt.Println("2) Enviar documento")
+	fmt.Println("0) Salir")
+
 	for {
-		fmt.Println("1) Enviar mensaje")
-		fmt.Println("2) Enviar documento")
-		fmt.Println("3) Mostrar chat")
-		fmt.Println("0) Salir")
 		fmt.Scanln(&opc)
 
 		switch opc {
 		case 1:
-			fmt.Print("Mensaje: ")
 			scanner.Scan()
 			mensaje := scanner.Text()
 			newUser.Mensaje = mensaje
 
 			messageChan <- newUser
+		case 2:
+			///
 		case 0:
+			login <- "Se ha desconectado: " + nombre
+			var input string
+			fmt.Scanln(&input)
+
 			return
 		default:
 			fmt.Println("Opcion no valida.")
