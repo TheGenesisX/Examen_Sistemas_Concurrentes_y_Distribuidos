@@ -28,6 +28,17 @@ func cliente(login chan string, messageChan chan User) {
 	}
 	defer cli.Close()
 
+	go func() {
+		for {
+			err := gob.NewDecoder(cli).Decode(&receivedMessage)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			fmt.Println(receivedMessage)
+		}
+	}()
+
 	for {
 		select {
 		case loginMessage := <-login:
@@ -45,12 +56,6 @@ func cliente(login chan string, messageChan chan User) {
 				return
 			}
 		}
-		err := gob.NewDecoder(cli).Decode(&receivedMessage)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		fmt.Println(receivedMessage)
 	}
 }
 
