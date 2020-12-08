@@ -4,8 +4,10 @@ import (
 	"bufio"
 	"encoding/gob"
 	"fmt"
+	"io/ioutil"
 	"net"
 	"os"
+	"path/filepath"
 )
 
 var login chan string = make(chan string)
@@ -17,6 +19,7 @@ type User struct {
 }
 
 var messageChan chan User = make(chan User)
+var archiveChan chan User = make(chan User)
 
 func cliente(login chan string, messageChan chan User) {
 	var receivedMessage string
@@ -55,6 +58,22 @@ func cliente(login chan string, messageChan chan User) {
 				fmt.Sprintln(err)
 				return
 			}
+
+		case newArchive := <-archiveChan:
+			chatMessage := newArchive.Nombre + " sent archive: " + filepath.Base(newArchive.Mensaje)
+
+			err = gob.NewEncoder(cli).Encode(chatMessage)
+			if err != nil {
+				fmt.Sprintln(err)
+				return
+			}
+			fmt.Print("Test")
+			// err = gob.NewEncoder(cli).Encode(fileData)
+			// if err != nil {
+			// 	fmt.Sprintln(err)
+			// 	return
+			// }
+
 		}
 	}
 }
@@ -89,7 +108,19 @@ func main() {
 
 			messageChan <- newUser
 		case 2:
-			///
+			fmt.Print("Ruta absoluta del archivo: ")
+			scanner.Scan()
+			mensaje := scanner.Text()
+			newUser.Mensaje = mensaje
+
+			archiveChan <- newUser
+
+			fileData, err := ioutil.ReadFile("Desktop/test.txt")
+			if err != nil {
+				fmt.Sprintln(err)
+				return
+			}
+			fmt.Print(string(fileData))
 		case 0:
 			login <- "Se ha desconectado: " + nombre
 			var input string
