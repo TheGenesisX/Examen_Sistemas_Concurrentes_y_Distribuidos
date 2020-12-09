@@ -1,0 +1,13 @@
+Se ha conectado: Alejandro
+Se ha conectado: Rafael
+Se ha conectado: Efren
+Alejandro: Hola, muchachos!
+Alejandro: ¿Como están?
+Rafael: Bien, y tú?
+Efren: Bien bien
+Alejandro: Pues masomenos, jaja
+Rafael: ¿Por qué?
+Efren: ¿Qué pasó?
+Alejandro: No pude hacer la parte de envio de archivos, jaja :(
+Rafael: Chales
+Efren: F
